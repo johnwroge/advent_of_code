@@ -1,0 +1,20 @@
+{
+  "name": "advent_of_code",
+  "version": "1.0.0",
+  "description": "Using multiple languages to solve these challenges.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@stenway/reliabletxt": "^0.6.0",
+    "@stenway/reliabletxt-io": "^0.6.0",
+    "fs": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0"
+  }
+}

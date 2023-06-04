@@ -29,9 +29,9 @@ let theirScore = 0;
 // for (let i = 0; i < inputArray.length; i++){
 //     yourPlay = inputArray[i][2];
 //     theirPlay = inputArray[i][0];
-//     // A Rock B Paper C Scissors
-//     // second column is what you play
-//     // X Rock Y Paper Z Scissors
+    // A Rock B Paper C Scissors
+    // second column is what you play
+    // X Rock Y Paper Z Scissors
 //     if (yourPlay === "X" && theirPlay === "A"){
 //         yourScore += 4;
 //         theirScore += 4; 
@@ -69,6 +69,7 @@ let theirScore = 0;
 //         theirScore += 6; 
 //     }
 // }
+console.log(yourScore)
 
 for (let i = 0; i < inputArray.length; i++){
     yourPlay = inputArray[i][2];

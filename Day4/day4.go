@@ -46,8 +46,11 @@ func main(){
 			log.Fatal(err)
 		}
 		
-			if ((range1Start >= range2Start && range1End <= range2End) || (range2Start >= range1Start && range1End >= range2End)){
-				sum +=1;
+			// if ((range1Start >= range2Start && range1End <= range2End) || (range2Start >= range1Start && range1End >= range2End)){
+			// 	sum +=1;
+			// }
+			if ((range1Start <= range2Start) && (range1End >= range2Start)) || ((range2Start <= range1Start) && (range2End >= range1Start)){
+            sum += 1
 			}
 	}
 	print((sum))

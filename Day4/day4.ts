@@ -24,8 +24,11 @@ for(let i = 0; i < inputArray.length; i++){
    range1End = Number(first[1]);
    range2Start = Number(second[0]);
    range2End = Number(second[1]);
-    if ((range1Start >= range2Start && range1End <= range2End) || (range2Start >= range1Start && range1End >= range2End)){
-        sum +=1;
+    // if ((range1Start >= range2Start && range1End <= range2End) || (range2Start >= range1Start && range1End >= range2End)){
+    //     sum +=1;
+    // }
+    if ((range1Start <= range2Start && range1End >= range2Start) || (range2Start <= range1Start) && (range2End >= range1Start)){
+    sum += 1
     }
 }
 console.log(sum)

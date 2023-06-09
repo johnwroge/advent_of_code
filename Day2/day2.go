@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	// "fmt"
 )
 
 type Row struct {
@@ -32,6 +33,7 @@ func main() {
 			rows = append(rows, row)
 		}
 	}
+	// fmt.Print(rows)
 	yourScore := 0;
 	theirScore := 0; 
 

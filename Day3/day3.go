@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"fmt"
 )
 
 func main() {
@@ -13,6 +14,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer file.Close()
+
 	lines := []string{}
 	scanner := bufio.NewScanner(file)
 
@@ -48,6 +50,7 @@ func main() {
 	
 	var word2 string; 
 	var word3 string; 
+	fmt.Println(lines)
 	for i := 0; i < len(lines); i+=3 {
 		word = lines[i]
 		word2 = lines[i + 1]

@@ -37,7 +37,7 @@ for (let struct of moves){
     let num = Number(order1[1])
     let src = order1[3]
     let dest = order1[5]
-    remove( num, src, dest)
+    remove(num, src, dest)
 }
 
 

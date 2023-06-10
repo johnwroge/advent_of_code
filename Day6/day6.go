@@ -1,10 +1,11 @@
 package main
 
 import (
-	// "bufio"
+	"bufio"
 	"log"
 	"os"
-	// "fmt"
+	"fmt"
+	"strings"
 )
 // qnjjqgjqgglqqwrrvvcww
 func main(){
@@ -13,25 +14,41 @@ func main(){
 		log.Fatal(err)
 	}
 	defer file.Close()
-	// lines := []string{}
-	// scanner := bufio.NewScanner(file)
-	// var line string
-	// for scanner.Scan(){
-	// 	line = scanner.Text()
-	// }
+	lines := []string{}
 
-	//fmt.Println(line)
-	// for i := 0; i < len(line); i++ {
+	//var line string; 
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan(){
+		line := scanner.Text()
+		item := strings.Split(line, "")
+		lines = append(lines, item...)
+	}
 
-	// }
+	var runes[]rune
+	for i := 0; i < 14; i++ {
+		str := lines[i]
+		runeSlice := []rune(str)
+		runes = append(runes,runeSlice[0])
+	} 
+	for i := 14; i < len(lines); i++ {
+		// fmt.Print(runes, "\n")
+		if isDistinct(runes) {
+			fmt.Print(i)
+			break; 
+		}
+		str := lines[i]
+		runeSlice := []rune(str)
+		runes = runes[1:]
+		runes = append(runes, runeSlice...)
+		//fmt.Print(runes)
+	}
 
-	print(isDistinct([]rune{'a','b','c','c'}))
 }
+//part 1: 1625
 
 
 func isDistinct(slice []rune) bool{
 	count := make(map[rune]int)
-
 	for i := 0; i < len(slice); i++ {
 		val,isPresent := count[slice[i]]
 		if isPresent{
@@ -40,15 +57,12 @@ func isDistinct(slice []rune) bool{
 			count[slice[i]] = 1
 		}
 	}
-
-	
 	for _,value := range(count){
-		
 		if value > 1 {
 			 return false
 		}
 	}
-
 return true; 
 }
+
 

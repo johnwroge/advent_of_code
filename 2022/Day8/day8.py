@@ -3,7 +3,7 @@ rot90 = lambda A: [*map(list, zip(*A[::-1]))]
 grid = [[*map(int, x.strip())] for x in open('/Users/johnwroge/advent_of_code/Day8/data.txt')]
 part1 = [[0 for _ in x] for x in grid]
 part2 = [[1 for _ in x] for x in grid]
-
+print(part1)
 for _ in range(4):
     for x,y in [(x,y) for x in range(99) for y in range(99)]:   
         lower = [t < grid[x][y] for t in grid[x][y+1:]]

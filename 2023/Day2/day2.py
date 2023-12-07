@@ -63,9 +63,35 @@ for i in range(len(days)):
         total += i + 1
     else:
         right_total += i + 1
-print(right_total)
 
-    
+# part 2
+
+import numpy as np
+
+days2 = { n: [] for n in range(1, 101)}
+for i in range(0, 100):
+    days2[i + 1].append(contents[i].split(':')[1])
+result = []
+for key in days2:
+    value = days2[key][0]
+    games = value.split(';')
+    blue, green, red = 0,0,0
+    for game in games:
+        color_count_pairs = game.strip().split(',')
+        for pair in color_count_pairs:
+            count, color = pair.strip().split()
+            count_number = int(count)
+            if color == 'red':
+                red = max(red, count_number)  
+            elif color == 'green':
+                green = max(green, count_number)   
+            elif color == 'blue':
+                blue = max(blue, count_number)
+        result.append((blue, green, red))
+
+final = [np.prod(tup) for tup in result]
+print(final)
+
 
 
 

@@ -34,6 +34,8 @@ number = "one two three four five six seven eight nine".split()
 
 pattern = "(?=(" + "|".join(number) + "|\\d))"
 
+# https://www.regular-expressions.info/lookaround.html
+
 def f(x):
     if x in number:
         return str(number.index(x) + 1)

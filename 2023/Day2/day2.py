@@ -29,40 +29,42 @@ with open('/Users/johnwroge/advent_of_code/2023/Day2/day2.txt', 'r') as file:
 
 days = { n: [] for n in range(1, 101)}
 
-
 new_list = []
 for i in range(0, 100):
     days[i + 1].append(contents[i].split(':')[1])
    
-
-
 for key in days:
-    sum_red, sum_green, sum_blue = 0,0,0
     value = days[key][0]
-
     games = value.split(';')
 
     for game in games:
         color_count_pairs = game.strip().split(',')
-
+        # print(color_count_pairs)
         for pair in color_count_pairs:
   
             count, color = pair.strip().split()
            
             count_number = int(count)
-            
-            if color == 'green' and int(count) > 13:
+            if color == 'red' and int(count) > 12:
                 days[key] = False
-            elif color == 'red' and int(count) > 12:
+                break
+            elif color == 'green' and int(count) > 13:
                 days[key] = False
+                break
             elif color == 'blue' and int(count) > 14:
                 days[key] = False
-            
+                break
+        if not days[key]:
+            break 
 total = 0
-for key in days:
-    if days[key] == False:
-        total += int(key)
-print(total)
+right_total = 0
+for i in range(len(days)):
+    if not days[i + 1]:
+        total += i + 1
+    else:
+        right_total += i + 1
+print(right_total)
+
     
 
 

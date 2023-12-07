@@ -27,13 +27,22 @@ IDs of those games?
 with open('/Users/johnwroge/advent_of_code/2023/Day2/day2.txt', 'r') as file:
     contents = file.read().splitlines()
 
-new_list = []
-for line in contents:
-    new_list.append(line.split(':'))
+days = { n: [] for n in range(1, 101)}
 
-for li in new_list:
-    if 
-print(new_list)
+
+new_list = []
+for i in range(0, 100):
+    days[i + 1].append(contents[i].split(':')[1])
+   
+
+
+
+
+
+
+    
+    
+
 
 
     

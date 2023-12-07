@@ -36,6 +36,34 @@ for i in range(0, 100):
    
 
 
+for key in days:
+    sum_red, sum_green, sum_blue = 0,0,0
+    value = days[key][0]
+
+    games = value.split(';')
+
+    for game in games:
+        color_count_pairs = game.strip().split(',')
+
+        for pair in color_count_pairs:
+  
+            count, color = pair.strip().split()
+           
+            count_number = int(count)
+            
+            if color == 'green' and int(count) > 13:
+                days[key] = False
+            elif color == 'red' and int(count) > 12:
+                days[key] = False
+            elif color == 'blue' and int(count) > 14:
+                days[key] = False
+            
+total = 0
+for key in days:
+    if days[key] == False:
+        total += int(key)
+print(total)
+    
 
 
 

@@ -76,21 +76,28 @@ for key in days2:
     value = days2[key][0]
     games = value.split(';')
     blue, green, red = 0,0,0
-    for game in games:
+    print(blue, green, red)
+    for i, game in enumerate(games):
         color_count_pairs = game.strip().split(',')
-        for pair in color_count_pairs:
+        for j, pair in enumerate(color_count_pairs):
+            
             count, color = pair.strip().split()
+            
             count_number = int(count)
+            # print(i, j, color, 'count: ', count_number)
             if color == 'red':
                 red = max(red, count_number)  
             elif color == 'green':
                 green = max(green, count_number)   
             elif color == 'blue':
                 blue = max(blue, count_number)
-        result.append((blue, green, red))
 
-final = [np.prod(tup) for tup in result]
-print(final)
+    # print(f"game {i, j} has total: ", 'blue: ', blue, 'green: ', green , 'red: ', red)
+    result.append([blue, green, red])
+
+# print(result)
+# final = [np.prod(tup) for tup in result]
+# print(final)
 
 
 

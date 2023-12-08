@@ -20,3 +20,36 @@ numbers in the engine schematic?
 
 
 '''
+
+
+with open('/Users/johnwroge/advent_of_code/2023/Day3/day3_test.txt', 'r') as file:
+    contents = file.read().splitlines()
+
+symbols = set()
+symbols.add('+')
+symbols.add('/')
+symbols.add('=')
+symbols.add('*')
+
+
+symbols.add('$')
+symbols.add('#')
+symbols.add('%')
+symbols.add('@')
+symbols.add('&')
+symbols.add('%')
+
+
+grid = []
+for line in contents:
+    row = []
+    for char in line:
+        row.append(char)
+    grid.append(row)
+print(grid)
+
+
+
+
+
+ 

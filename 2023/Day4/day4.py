@@ -18,7 +18,12 @@ with open('/Users/johnwroge/advent_of_code/2023/Day4/day4_test.txt', 'r') as fil
 
 results = []
 for line in contents:
-    resline.split(':')
+    day, cards = line.split(':')
+    results.append(cards.split('|'))
+cards = []
+for line in results:
+    wins, candidates = line.split()
+
+print(results)
 
 
-print(contents)

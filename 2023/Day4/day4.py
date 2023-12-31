@@ -68,7 +68,7 @@ for line in results:
             else:
                 curr_total_part1 *= 2
     # total (1) 4 = int(4/2 * 2 1 )
-    final_total_2 += int(((card_total_part2)//2) * (card_index + 1 + card_index + 1 + card_total_part2))
+    final_total_2 += int(((card_total_part2)//2) * (card_index + 1 + card_index + card_total_part2))
 
     card_index += 1
     final_total += curr_total_part1

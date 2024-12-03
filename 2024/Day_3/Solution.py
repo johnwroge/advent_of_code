@@ -5,12 +5,6 @@ with open(os.getcwd() + '/2024/Day_3/data.txt') as file:
     content = file.read()
     instructions = file.readlines()
    
-  
-
-
-
-
-
 
 def Part_One(content):
     pattern = r"mul\((\d+),(\d+)\)"
@@ -25,11 +19,9 @@ def Part_One(content):
     
 
 def Part_Two(content):
-    
     pattern = r"(?:mul\((\d+),(\d+)\)|do\(\)|don't\(\))"
     enabled = True 
     total = 0
-
     for match in re.finditer(pattern, content):
         operation = match.group(0)
         if operation == "do()":

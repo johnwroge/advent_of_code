@@ -5,10 +5,6 @@ with open(os.getcwd() + '/2024/Day_5/data.txt') as file:
     rules = [list(map(int,row.split('|'))) for row in content if '|' in row]
     updates = [list(map(int,update.split(','))) for update in content if ',' in update]
 
-# print(rules)
-# print(updates)
-
-
 def find_sum_of_medians(group):
     medians = []
     for update in group:
@@ -35,9 +31,7 @@ def Part_One():
                 count -= 1
         if count == 0:
             to_include.append(update)
-
     answer = find_sum_of_medians(to_include)
-    
     return answer, broken
 
 
@@ -47,7 +41,6 @@ def Part_Two(unsorted):
     for update in unsorted:
         copy = update.copy()
         changes_made = True
-        
         while changes_made:
             changes_made = False
             for rule in rules:
@@ -58,14 +51,11 @@ def Part_Two(unsorted):
                     if first_index > second_index:
                         copy[first_index], copy[second_index] = copy[second_index], copy[first_index]
                         changes_made = True
-        
         fixed.append(copy)
     
     answer = find_sum_of_medians(fixed)
     return answer
     
-
-
 part_1, unsorted = Part_One()
 print("Part 1:", part_1)
 part_2 = Part_Two(unsorted)

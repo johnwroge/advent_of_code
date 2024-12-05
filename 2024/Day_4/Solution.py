@@ -127,7 +127,7 @@ def Part_Two(grid):
     return len(intersections)
 
 
-# print(Part_One(grid))
-# print(Part_Two(grid))
+print(Part_One(grid))
+print(Part_Two(grid))
 
    

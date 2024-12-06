@@ -1,7 +1,5 @@
 import os
 
-
-
 def Read_File(filename):
     with open(os.getcwd() + f'/2024/Day_6/{filename}', 'r') as file:
         lines = file.read().split('\n')

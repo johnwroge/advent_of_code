@@ -75,6 +75,9 @@ htmlcov/
 *.sublime-workspace
 *.sublime-project
 
+# Java 
+*.class
+
 # OS specific files
 .DS_Store
 .DS_Store?

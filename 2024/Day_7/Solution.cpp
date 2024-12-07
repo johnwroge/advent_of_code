@@ -127,8 +127,14 @@ long long partTwo(const string& file) {
                 } else if (op == "*") {
                     curr *= nums[idx];
                 } else if (op == "||") {
-                    string concat = to_string(curr) + to_string(nums[idx]);
-                    curr = stoll(concat);
+                    // Replace string concatenation with numeric approach
+                    long long temp = nums[idx];
+                    long long multiplier = 1;
+                    while (temp > 0) {
+                        temp /= 10;
+                        multiplier *= 10;
+                    }
+                    curr = curr * multiplier + nums[idx];
                 }
                 idx++;
             }

@@ -134,9 +134,20 @@ public class Solution {
     }
 
     public static void main(String[] args) {
+        // Time Part 1
+        long startTime1 = System.nanoTime();
         long one = partOne("data.txt");
-        System.out.println("Part 1: " + one);
+        long endTime1 = System.nanoTime();
+        long duration1 = (endTime1 - startTime1) / 1_000_000;  // Convert to milliseconds
+        
+        // Time Part 2
+        long startTime2 = System.nanoTime();
         long two = partTwo("data.txt");
-        System.out.println("Part 2: " + two);
+        long endTime2 = System.nanoTime();
+        long duration2 = (endTime2 - startTime2) / 1_000_000;  // Convert to milliseconds
+        
+        System.out.println("Part 1: " + one + " (Time: " + duration1 + "ms)");
+        System.out.println("Part 2: " + two + " (Time: " + duration2 + "ms)");
+        System.out.println("Total Time: " + (duration1 + duration2) + "ms");
     }
 }

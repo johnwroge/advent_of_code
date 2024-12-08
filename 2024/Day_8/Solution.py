@@ -9,10 +9,10 @@ def read_file(filename):
 def create_grid(lines):
     return [list(line) for line in lines]
 
-def manhattan(a, b):
-    return sum(abs(val1-val2) for val1, val2 in zip(a,b))
-
-def create_antinode(x, y):
+def get_distance(a, b):
+    return [b[0] - a[0], b[1] - a[1]]
+    
+def create_antinodes(position, dist):
     pass
 
 def print_grid(grid):
@@ -21,6 +21,7 @@ def print_grid(grid):
 
 def Part_One():
     content = read_file('test.txt')
+    test = read_file('to_check.txt')
     grid = create_grid(content)
     positions = {}
     for i in range(len(grid)):
@@ -30,7 +31,7 @@ def Part_One():
                     positions[grid[i][j]] = []
                 positions[grid[i][j]].append((i, j))
 
-    antinode_positions = []
+    anti_nodes = set()
     
     for char in positions.keys():
         possible_nodes = positions[char]
@@ -38,16 +39,16 @@ def Part_One():
             curr = possible_nodes[i]
             for j in range(i + 1, len(possible_nodes)):
                 to_check = possible_nodes[j]
-                distance = manhattan((curr[0], curr[1]),(to_check[0], to_check[1]))
-                print(char, distance)
-
-        # for x, y in to_check:
-        #     pass
+                dy1, dx1 = get_distance(curr, to_check)
+                dy2, dx2 = get_distance(to_check, curr)
+                anti_nodes.add((to_check[0] + dy1, to_check[1] + dx1))
+                anti_nodes.add((curr[0] + dy2, curr[1] + dx2))
+    result = 0                       
+    for x, y in anti_nodes:
+        if 0 <= x < len(grid) and 0 <= y < len(grid[0]):
+            result += 1
+    return result
             
-            
-
-    # iterate over each character and determine if there should be an antinode by calculating man distance
-        # if true determine posiiton of possible nodes and add to list
 
     
 

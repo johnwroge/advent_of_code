@@ -91,6 +91,6 @@ def Part_Two():
     return result
 
 if __name__ == "__main__":
-    print(Part_One())
-    print(Part_Two())
+    print('Part 1:', Part_One())
+    print('Part 2:', Part_Two())
 

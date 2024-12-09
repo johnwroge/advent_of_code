@@ -6,13 +6,28 @@ def read_file(filename):
         contents = file.read()
     return contents
 
-def generate_id(lines):
-    # do we need id first or last, what is the lookup key later?
-    pass
+
 
 def format_string(string):
-    # iterate over string and append digit or space ('.) alternating position
-    pass
+    to_update = list(string)
+    j = 0
+    for i in range(len(string)):
+        if i % 2 == 1:
+            to_update[i] = '.' * int(to_update[i])
+        else:
+            to_update[i] = str(j) * int(to_update[i])
+            j += 1
+    return list(''.join(to_update))
+
+def update(char_list):
+    i = 0
+    while i < len(char_list):
+        if char_list[i] == '.':
+            while char_list[len(char_list) - 1] == '.':
+                char_list.pop()
+            char_list[i] = char_list.pop()
+        i += 1
+    return char_list
 
 def calculate_checksun(string):
     """
@@ -30,14 +45,11 @@ def calculate_checksun(string):
 
 def Part_One():
     contents = read_file('test.txt')
-    print(contents)
-    # create mapping of ids and blocks (id key and file type as value)
+    formatted = format_string(contents)
+    updated = update(formatted)
+    # print(''.join(updated))
+    # print('0099811188827773336446555566')
 
-    # separate contents into sections with first(file block) and second (space)
-    
-        # insert periods at these block positions
-
-    # format the files by shifting last most position to first available free space
 
     # calculate checksum and return
 

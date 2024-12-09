@@ -60,6 +60,69 @@ def Part_One():
     return answer
 
 if __name__ == "__main__":
-    print(Part_One())
-
     
+    pass
+
+def find_files(layout):
+    """Find continuous blocks of each file ID"""
+    files = {} 
+    
+    i = 0
+    while i < len(layout):
+        if layout[i] != '.':
+            start = i
+            file_id = layout[i]
+            length = 0
+            
+            while i < len(layout) and layout[i] == file_id:
+                length += 1
+                i += 1
+                
+            if file_id not in files:
+                files[file_id] = []
+            files[file_id].append((start, length))
+        else:
+            i += 1
+            
+    return files
+
+def find_free_space(layout, start, needed_length):
+    """Find leftmost free space of sufficient length"""
+    i = 0
+    while i < start:
+        if layout[i] == '.':
+            space_start = i
+            length = 0
+            while i < start and layout[i] == '.':
+                length += 1
+                i += 1
+            if length >= needed_length:
+                return space_start
+        else:
+            i += 1
+    return -1
+
+def compact_files_part2(layout):
+    layout = layout.copy()
+    files = find_files(layout)
+    
+    for file_id in sorted(files.keys(), key=int, reverse=True):
+        for start, length in files[file_id]:
+            new_pos = find_free_space(layout, start, length)
+            if new_pos != -1:
+                for i in range(length):
+                    layout[new_pos + i] = file_id
+                    layout[start + i] = '.'
+    
+    return layout
+
+def Part_Two():
+    content = read_file('data.txt')
+    initial_layout = create_initial_layout(content)
+    compacted = compact_files_part2(initial_layout)
+    return calculate_checksum(compacted)
+
+if __name__ == "__main__":
+    print('Part 1:', Part_One())
+    print('Part 2:', Part_Two())
+

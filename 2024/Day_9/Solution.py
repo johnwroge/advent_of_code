@@ -22,36 +22,33 @@ def format_string(string):
 def update(char_list):
     i = 0
     while i < len(char_list):
+        if i == len(char_list):
+            break
         if char_list[i] == '.':
-            while char_list[len(char_list) - 1] == '.':
+            while char_list and char_list[len(char_list) - 1] == '.':
                 char_list.pop()
+                if i == len(char_list):
+                    break
+            if i == len(char_list):
+                break
             char_list[i] = char_list.pop()
         i += 1
     return char_list
 
-def calculate_checksun(string):
-    """
-    To calculate the checksum, add up the result of multiplying each of these blocks' position
-    with the file ID number it contains. The leftmost block is in position 0. If a block contains
-    free space, skip it instead.
-
-    Continuing the first example, the first few blocks' position multiplied by its file ID number
-    are 0 * 0 = 0, 1 * 0 = 0, 2 * 9 = 18, 3 * 9 = 27, 4 * 8 = 32, and so on. In this example, the
-    checksum is the sum of these, 1928.
-    
-    """
-    # current index times file id number, if '.' or free space skip
-    pass
+def calculate_checksum(string):
+    return sum([i * int(string[i]) for i in range(len(string)) if string[i].isdigit()])
 
 def Part_One():
-    contents = read_file('test.txt')
+    contents = read_file('data.txt')
+    # contents = read_file('test.txt')
+    # contents = "252"
     formatted = format_string(contents)
     updated = update(formatted)
-    # print(''.join(updated))
-    # print('0099811188827773336446555566')
-
-
-    # calculate checksum and return
-
+    answer = calculate_checksum(updated)
+    print(calculate_checksum("0099811188827773336446555566"))
+    return answer
+"""
+# id can be a multi digit number
+"""
 if __name__ == "__main__":
     print(Part_One())

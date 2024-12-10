@@ -16,7 +16,7 @@ def is_valid(grid, r, c):
 
 
 def Part_One():
-    grid = read_file('test2.txt')
+    grid = read_file('data.txt')
     Q = deque()
     score = {}
     visited = set()
@@ -29,17 +29,13 @@ def Part_One():
 
     while Q:
         i, j, curr, r, c = Q.popleft()
-        visited.add((r,c))
         if curr == 9:
-            if (i,j) not in score:
-                score[(i, j)] = 0
-            score[(i, j)] += 1
+            score[(i, j, r, c)] = 1
             continue
         for dr, dc in dr_dc:
             new_r, new_c = r + dr, c + dc
-            if (new_r, new_c) not in visited and is_valid(grid, new_r, new_c) and grid[new_r][new_c] != '.' and int(grid[new_r][new_c]) == curr + 1:
+            if is_valid(grid, new_r, new_c) and grid[new_r][new_c] != '.' and int(grid[new_r][new_c]) == curr + 1:
                 Q.append((i, j, curr + 1, new_r, new_c))
-    print(visited)
     return sum(score.values())
     
     

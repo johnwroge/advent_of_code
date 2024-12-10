@@ -10,10 +10,9 @@ def read_file(file):
 def print_grid(grid):
     for line in grid:
         print(line, '\n')
+
 def is_valid(grid, r, c):
     return 0 <= r < len(grid) and 0 <= c < len(grid[0])
-
-
 
 def Part_One():
     grid = read_file('data.txt')
@@ -37,9 +36,6 @@ def Part_One():
             if is_valid(grid, new_r, new_c) and grid[new_r][new_c] != '.' and int(grid[new_r][new_c]) == curr + 1:
                 Q.append((i, j, curr + 1, new_r, new_c))
     return sum(score.values())
-    
-    
-
 
 
 def Part_Two():

@@ -6,7 +6,7 @@ def read_file(filename):
     with open(os.getcwd()+f'/2024/Day_11/{filename}', 'r') as file:
         contents = file.read().split()
         return contents
-
+# brute force
 def Part_One(blinks):
     contents = read_file('data.txt')
     while blinks > 0:
@@ -27,7 +27,7 @@ def Part_One(blinks):
         blinks -= 1
     return len(contents)
 
-
+# Recursive and Caching
 def Part_Two(blinks):
     contents = read_file('data.txt')
     total = 0
@@ -41,6 +41,7 @@ def process_stone(stone, blinks):
         return 1
     
     length = len(stone)
+
     if stone == '0':
         return process_stone('1', blinks - 1)
     elif length % 2 == 0:

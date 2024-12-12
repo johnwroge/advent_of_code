@@ -54,5 +54,6 @@ def process_stone(stone, blinks):
     
 
 if __name__ == "__main__":
-    print('Part 1:', Part_Two(75))
-    # print('Part 1:', Part_One(25))
+    print('Part 1:', Part_One(25))
+    print('Part 2:', Part_Two(75))
+   

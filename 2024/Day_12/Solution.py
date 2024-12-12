@@ -1,25 +1,6 @@
 import os
 
 
-"""
-AAAA
-BBCD
-BBCC
-EEEC
-
-A,B,C,D - individual garden plots
-
-A,B,C - region of area 4
-C - 3
-D - 1
-
-region - 5 types of plants connected horizontally and vertically
-
-cost of fence = area (number of garden plots of region) * perimeter 
-
-"""
-
-
 def read_file(filename):
     with open(os.getcwd() + f'/2024/Day_12/{filename}', 'r') as file:
         contents = file.read()

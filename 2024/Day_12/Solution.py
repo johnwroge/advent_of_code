@@ -182,7 +182,3 @@ def Part_Two():
 if __name__ == '__main__':
     print(Part_One())
     print(Part_Two())
-
-# To solve with your input, call:
-# solution = solve_garden_groups(your_input)
-# print(solution)

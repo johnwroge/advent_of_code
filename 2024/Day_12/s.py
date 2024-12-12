@@ -1,29 +1,10 @@
-import os
-
-
-"""
-AAAA
-BBCD
-BBCC
-EEEC
-
-A,B,C,D - individual garden plots
-
-A,B,C - region of area 4
-C - 3
-D - 1
-
-region - 5 types of plants connected horizontally and vertically
-
-cost of fence = area (number of garden plots of region) * perimeter 
-
-"""
-
+import os 
 
 def read_file(filename):
     with open(os.getcwd() + f'/2024/Day_12/{filename}', 'r') as file:
         contents = file.read()
     return contents
+
 
 def find_regions(grid):
     """Find all regions in the grid using flood fill."""
@@ -56,40 +37,6 @@ def find_regions(grid):
     
     return regions
 
-def calculate_perimeter(region_coords, grid_width, grid_height):
-    """Calculate the perimeter of a region."""
-    perimeter = 0
-    
-    for row, col in region_coords:
-        for dr, dc in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
-            new_row, new_col = row + dr, col + dc
-
-            if (
-                new_row < 0 or new_row >= grid_height or
-                new_col < 0 or new_col >= grid_width or
-                (new_row, new_col) not in region_coords
-            ):
-                perimeter += 1
-                
-    return perimeter
-
-def solve_garden_groups(input_text):
-    grid = [list(line) for line in input_text.strip().split('\n')]
-    height = len(grid)
-    width = len(grid[0])
-    
-    regions = find_regions(grid)
-    
-    total_price = 0
-    for plant_type, region_coords in regions:
-        area = len(region_coords)
-        perimeter = calculate_perimeter(region_coords, width, height)
-        price = area * perimeter
-        total_price += price
-        
-    return total_price
-
-
 def count_sides(region, grid_width, grid_height):
     """Count the number of distinct sides for a region."""
     sides = set()
@@ -97,9 +44,12 @@ def count_sides(region, grid_width, grid_height):
     def is_in_region(r, c):
         return (r, c) in region
     
+    # For each cell in the region
     for row, col in region:
+        # Check left edge
         if not is_in_region(row, col - 1):
             left_edge = True
+            # Look for cells above and below that might continue this edge
             r = row - 1
             while r >= 0 and is_in_region(r, col) and not is_in_region(r, col - 1):
                 r -= 1
@@ -112,7 +62,9 @@ def count_sides(region, grid_width, grid_height):
             
             sides.add(('V', col, top, bottom))
         
+        # Check right edge
         if not is_in_region(row, col + 1):
+            # Look for cells above and below that might continue this edge
             r = row - 1
             while r >= 0 and is_in_region(r, col) and not is_in_region(r, col + 1):
                 r -= 1
@@ -125,7 +77,9 @@ def count_sides(region, grid_width, grid_height):
             
             sides.add(('V', col + 1, top, bottom))
         
+        # Check top edge
         if not is_in_region(row - 1, col):
+            # Look for cells left and right that might continue this edge
             c = col - 1
             while c >= 0 and is_in_region(row, c) and not is_in_region(row - 1, c):
                 c -= 1
@@ -138,7 +92,9 @@ def count_sides(region, grid_width, grid_height):
             
             sides.add(('H', row, left, right))
         
+        # Check bottom edge
         if not is_in_region(row + 1, col):
+            # Look for cells left and right that might continue this edge
             c = col - 1
             while c >= 0 and is_in_region(row, c) and not is_in_region(row + 1, c):
                 c -= 1
@@ -155,13 +111,16 @@ def count_sides(region, grid_width, grid_height):
 
 def solve_garden_groups_part2(input_text):
     """Solve part 2 of the garden groups puzzle."""
+    # Parse input into grid
     grid = [list(line) for line in input_text.strip().split('\n')]
     height = len(grid)
     width = len(grid[0])
     
+    # Find all regions
     regions = find_regions(grid)
     
     total_price = 0
+    # Calculate price for each region
     for plant_type, region_coords in sorted(regions):
         area = len(region_coords)
         sides = count_sides(region_coords, width, height)
@@ -170,19 +129,60 @@ def solve_garden_groups_part2(input_text):
         
     return total_price
 
+# Test cases with their expected results
+def run_test(test_input, expected, case_num):
+    result = solve_garden_groups_part2(test_input)
+    assert result == expected, f"Test case {case_num} failed: got {result}, expected {expected}"
+    print(f"Test case {case_num} passed: {result}")
+    return result
 
-def Part_One():
-    contents = read_file('data.txt')
-    return solve_garden_groups(contents)
+# Simple test case
+test1 = """AAAA
+BBCD
+BBCC
+EEEC"""
+result1 = run_test(test1, 80, 1)
 
-def Part_Two():
-    contents = read_file('data.txt')
-    return solve_garden_groups_part2(contents)
+# O's and X's test case
+test2 = """OOOOO
+OXOXO
+OOOOO
+OXOXO
+OOOOO"""
+result2 = run_test(test2, 436, 2)
 
-if __name__ == '__main__':
-    print(Part_One())
-    print(Part_Two())
+# E-shaped region test case
+test3 = """EEEEE
+EXXXX
+EEEEE
+EXXXX
+EEEEE"""
+result3 = run_test(test3, 236, 3)
 
-# To solve with your input, call:
-# solution = solve_garden_groups(your_input)
-# print(solution)
+# Diagonal touching regions test case
+test4 = """AAAAAA
+AAABBA
+AAABBA
+ABBAAA
+ABBAAA
+AAAAAA"""
+result4 = run_test(test4, 368, 4)
+
+# Complex test case
+test5 = """RRRRIICCFF
+RRRRIICCCF
+VVRRRCCFFF
+VVRCCCJFFF
+VVVVCJJCFE
+VVIVCCJJEE
+VVIIICJJEE
+MIIIIIJJEE
+MIIISIJEEE
+MMMISSJEEE"""
+result5 = run_test(test5, 1206, 5)
+
+print("All test cases passed!")
+
+text = read_file("data.txt")
+print(solve_garden_groups_part2(text))
+

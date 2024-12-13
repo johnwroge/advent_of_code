@@ -39,7 +39,6 @@ def parse_coordinates_regex(filename):
                 coordinates.append((int(numbers[0]), int(numbers[1])))
     return coordinates
 
-
 def solve(arr1, arr2, arr3):
     try:
         A = np.array([arr1, arr2])
@@ -49,27 +48,46 @@ def solve(arr1, arr2, arr3):
     except np.linalg.LinAlgError:
         return None 
 
-def is_whole_number(num):
-    return np.isclose(num % 1, 0)
-
 def Part_One():
-    coordinates = read_file('test1.txt')
+    coordinates = read_file('data.txt')
     i = 0
-    tokens = 0
+    total_tokens = 0
     while i < len(coordinates):
-        rows = coordinates[i:i + 3] 
+        rows = coordinates[i:i + 3]
         solution = solve(rows[0], rows[1], rows[2])
-        if any(round(x, 10) != round(int(x), 10) for x in solution):
-            i += 3
-            continue
-        solution = solution.astype(int)
-        print(solution)
-        tokens += (3 * int(solution[0])) + int(solution[1])
+        if solution is not None:
+            a, b = solution
+            if (0 <= a <= 100 and 0 <= b <= 100 and 
+                abs(a - round(a)) < 1e-10 and 
+                abs(b - round(b)) < 1e-10):
+                a = int(round(a))
+                b = int(round(b))
+                total_tokens += (3 * a) + b
         i += 3
-    return tokens
-    
+    return total_tokens
+
+def Part_Two():
+    coordinates = read_file('data.txt')
+    i = 0
+    total_tokens = 0
+    while i < len(coordinates):
+        rows = coordinates[i:i + 3]
+        rows[2] = (rows[2][0] + 10000000000000, rows[2][1] + 10000000000000)
+        solution = solve(rows[0], rows[1], rows[2])
+        if solution is not None:
+            a, b = solution
+            if (abs(a - round(a)) < 1e-10 and abs(b - round(b)) < 1e-10):
+                a = int(round(a))
+                b = int(round(b))
+                total_tokens += (3 * a) + b
+        i += 3
+    return total_tokens
+
+
 
 
 if __name__ == '__main__':
-    print(Part_One())
+    print('Part 1:', Part_One())
+    print('Part 2:', Part_Two())
+
 

@@ -1,5 +1,6 @@
 
 import os, re
+from collections import deque
 
 def read_file(file):
     coordinates = []
@@ -23,15 +24,15 @@ def quadrant(r, c):
         return 1
     elif 0 <= c < 50 and 51 < r < 103:
         return 2
-    elif 50 <= c < 101 and 51 < r < 103:
+    elif 50 < c < 101 and 51 < r < 103:
         return 3
 
 def split_into_quadrants(points):
     quadrants = [[] for _ in range(4)]
     for r, c in points:
-        if r != 50 and c != 51:
+        if r != 51 and c != 50:
             index = quadrant(r, c)
-            quadrants.append((r,c))
+            quadrants[index].append((r,c))
     return quadrants
 
 def next_position(r, c, dr, dc):
@@ -45,24 +46,31 @@ def next_position(r, c, dr, dc):
     if new_r >= 103:
         new_r -= 103
     if new_c >= 101:
-        new_c += 103
+        new_c -= 101
     return new_r, new_c   
     
-    
+def calculate_safety_factor(q1, q2, q3, q4):
+    return len(q1) * len(q2) * len(q3) * len(q4)
 
 def Part_One():
-    # get initial points and velocities
-    # append to a deque
-    # perform bfs while time (100) > 0
-        # iterate over the entire queue length
-            # get position and velocity and determine next position
-            # append to the queue
+    p_v = read_file('data.txt')
+    Q = deque(p_v[0])
+    t = 100 
+    while t > 0:
+        length = len(Q)
+        for _ in range(length):
+            c, r, dc, dr = Q.popleft()
+            new_r, new_c = next_position(r, c, dr, dc)
+            Q.append((new_c, new_r, dc, dr))
+        t -= 1
+    points = [(r, c) for c, r,_ ,_ in Q]
+    quadrants = split_into_quadrants(points)
+    safety_factor = calculate_safety_factor(quadrants[0], quadrants[1], quadrants[2], quadrants[3])
     
-    # get qudrants (split into quadrants)
-    # iterate over qudrants and calculate the safety factor
-    # return safety factor
-    pass
+    return safety_factor
+    
     
 
-# print(read_file('test_1.txt'))
+if __name__ == '__main__':
+    print(Part_One())
     

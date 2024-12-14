@@ -16,31 +16,39 @@ def read_file(file):
             maximum = max(int(p2), maximum)
     return list(coordinates), maximum
 
-def create_grid(maxi):
-    return []
-
 def quadrant(r, c):
-    # first
-    # second
-    # third
-    # fourth
-    pass
+    if 0 <= c < 50 and 0 <= r < 51:
+        return 0
+    elif 50 < c < 101  and 0 <= r < 51:
+        return 1
+    elif 0 <= c < 50 and 51 < r < 103:
+        return 2
+    elif 50 <= c < 101 and 51 < r < 103:
+        return 3
 
-def split_into_quadrants():
-    # first, second, third, fourth
-    # iterate over points, determine which quadrant and append
-    # filter first
-    # filter second
-    # filter third
-    # filter fourth
-    # return all quadrants
-    pass
+def split_into_quadrants(points):
+    quadrants = [[] for _ in range(4)]
+    for r, c in points:
+        if r != 50 and c != 51:
+            index = quadrant(r, c)
+            quadrants.append((r,c))
+    return quadrants
 
-def next_position(r, c):
-    # return new_r, new_c
-    pass
-
-def validate_position()
+def next_position(r, c, dr, dc):
+    new_r, new_c = r + dr, c + dc
+    if 0 <= new_r < 103 and 0 <= new_c < 101:
+        return new_r, new_c
+    if new_r < 0:
+        new_r += 103
+    if new_c < 0:
+        new_c += 101
+    if new_r >= 103:
+        new_r -= 103
+    if new_c >= 101:
+        new_c += 103
+    return new_r, new_c   
+    
+    
 
 def Part_One():
     # get initial points and velocities
@@ -53,10 +61,8 @@ def Part_One():
     # get qudrants (split into quadrants)
     # iterate over qudrants and calculate the safety factor
     # return safety factor
+    pass
     
-    
-
-
 
 # print(read_file('test_1.txt'))
     

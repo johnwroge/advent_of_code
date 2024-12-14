@@ -66,11 +66,79 @@ def Part_One():
     points = [(r, c) for c, r,_ ,_ in Q]
     quadrants = split_into_quadrants(points)
     safety_factor = calculate_safety_factor(quadrants[0], quadrants[1], quadrants[2], quadrants[3])
-    
     return safety_factor
+
+
+
+def find_tree_pattern(points):
+    min_r = min(r for r, _ in points)
+    max_r = max(r for r, _ in points)
+    min_c = min(c for _, c in points)
+    max_c = max(c for _, c in points)
     
+    height = max_r - min_r + 1
+    width = max_c - min_c + 1
     
+    positions = set((r, c) for r, c in points)
+    
+    if len(positions) != len(points):
+        return False
+        
+    consecutive_count = 0
+    for r in range(min_r, max_r + 1):
+        for c in range(min_c, max_c):
+            if (r, c) in positions and (r, c+1) in positions:
+                consecutive_count += 1
+                if consecutive_count >= 5: 
+                    return True
+        consecutive_count = 0
+        
+    return False
+
+
+def print_pattern(points):
+    min_r = min(r for r, _ in points)
+    max_r = max(r for r, _ in points)
+    min_c = min(c for _, c in points)
+    max_c = max(c for _, c in points)
+    
+    height = max_r - min_r + 1
+    width = max_c - min_c + 1
+    grid = [['.' for _ in range(width)] for _ in range(height)]
+    
+    for r, c in points:
+        grid[r - min_r][c - min_c] = '#'
+    
+    for row in grid:
+        print(''.join(row))
+
+def Part_Two():
+    p_v = read_file('data.txt')
+    Q = deque(p_v[0])
+    t = 1
+    
+    while t < 10000: 
+        length = len(Q)
+        for _ in range(length):
+            c, r, dc, dr = Q.popleft()
+            new_r, new_c = next_position(r, c, dr, dc)
+            Q.append((new_c, new_r, dc, dr))
+            
+        points = [(r, c) for c, r, _, _ in Q]
+        
+        if find_tree_pattern(points):
+            print(f"\nPossible tree at t={t}")
+            print_pattern(points) 
+            
+            response = input("Is this the tree? (y/n): ")
+            if response.lower() == 'y':
+                return t
+                
+        t += 1
+
+
 
 if __name__ == '__main__':
     print(Part_One())
+    print(Part_Two())
     

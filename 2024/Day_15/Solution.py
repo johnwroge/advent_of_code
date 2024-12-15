@@ -37,7 +37,7 @@ def push_boxes(grid, r, c, dr, dc):
         curr_c += dc
     
     if grid[curr_r][curr_c] == '#':
-        return False, grid
+        return False
     
     elif grid[curr_r][curr_c] == '.':
         for old_r, old_c in indices:
@@ -45,7 +45,29 @@ def push_boxes(grid, r, c, dr, dc):
         
         for old_r, old_c in indices:
             grid[old_r + dr][old_c + dc] = 'O'
-        return True, grid
+        return True
+
+def Part_One():
+    grid, path = read_file('small.txt')
+    directions = {'^': (-1,0), '>': (0,1), 'v': (1,0), '<': (0,-1)}
+    r, c = find_start(grid)
+    grid[r][c] = '.'  
+    
+    for d in path:
+        dr, dc = directions[d]
+        new_r, new_c = r + dr, c + dc
+        
+        if grid[new_r][new_c] == '.':
+            grid[r][c] = '.'      
+            grid[new_r][new_c] = '@'  
+            r, c = new_r, new_c
+        elif grid[new_r][new_c] == '#':
+            continue
+        else:  
+            if push_boxes(grid, new_r, new_c, dr, dc):
+                grid[r][c] = '.'          
+                grid[new_r][new_c] = '@'  
+                r, c = new_r, new_c
 
 def Part_One():
     grid, path = read_file('data.txt')
@@ -64,15 +86,10 @@ def Part_One():
         elif grid[new_r][new_c] == '#':
             continue
         else:  
-            success, new_grid = push_boxes(grid, new_r, new_c, dr, dc)
-            if success:
-                grid = new_grid
+            if push_boxes(grid, new_r, new_c, dr, dc):
                 grid[r][c] = '.'          
                 grid[new_r][new_c] = '@'  
                 r, c = new_r, new_c
-        # for line in grid:
-        #     print(''.join(line))
-        # print('\n\n')
     return calculate_sum(grid)
 
        

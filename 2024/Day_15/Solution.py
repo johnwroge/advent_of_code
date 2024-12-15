@@ -1,6 +1,5 @@
 import os
 
-
 def create_grid(string):
     return [list(row) for row in string if row]
 
@@ -10,7 +9,7 @@ def read_file(filename):
         if '\n' in lines:
             split_index = lines.index('\n')
             grid = create_grid(''.join(lines[:split_index]).split('\n'))
-            instructions = ''.join(lines[split_index+1:])
+            instructions = ''.join(lines[split_index+1:]).replace('\n','')
             return grid, instructions
         else:
             return create_grid(''.join(lines).split('\n'))
@@ -28,37 +27,57 @@ def find_start(grid):
             if grid[r][c] == '@':
                 return r, c
 
-def push_boxes(grid, r, c):
-    # How many O's are consecutive after your position
-    # Is there a dot at the end of the O sequence
-    # Is there a wall blocking the move  
-    # 
-     
-    # Can I make this move? (check the conditions)
-    # How many O's am I pushing?
-    # Where does everything end up? 
-    pass
-
+def push_boxes(grid, r, c, dr, dc): 
+    indices = []
+    curr_r, curr_c = r, c
+    
+    while grid[curr_r][curr_c] == 'O':
+        indices.append((curr_r, curr_c))
+        curr_r += dr
+        curr_c += dc
+    
+    if grid[curr_r][curr_c] == '#':
+        return False, grid
+    
+    elif grid[curr_r][curr_c] == '.':
+        for old_r, old_c in indices:
+            grid[old_r][old_c] = '.'
+        
+        for old_r, old_c in indices:
+            grid[old_r + dr][old_c + dc] = 'O'
+        return True, grid
 
 def Part_One():
-    grid, path = read_file('small.txt')
+    grid, path = read_file('data.txt')
     directions = {'^': (-1,0), '>': (0,1), 'v': (1,0), '<': (0,-1)}
     r, c = find_start(grid)
+    grid[r][c] = '.'  
     
-    for c in path:
-        dr, dc = directions[path]
+    for d in path:
+        dr, dc = directions[d]
         new_r, new_c = r + dr, c + dc
+        
         if grid[new_r][new_c] == '.':
+            grid[r][c] = '.'      
+            grid[new_r][new_c] = '@'  
             r, c = new_r, new_c
         elif grid[new_r][new_c] == '#':
             continue
-        else:
-            pass
+        else:  
+            success, new_grid = push_boxes(grid, new_r, new_c, dr, dc)
+            if success:
+                grid = new_grid
+                grid[r][c] = '.'          
+                grid[new_r][new_c] = '@'  
+                r, c = new_r, new_c
+        # for line in grid:
+        #     print(''.join(line))
+        # print('\n\n')
+    return calculate_sum(grid)
 
-        
        
-        
 
+        
 if __name__ == '__main__':
     print(Part_One())
     # print(Part_Two())

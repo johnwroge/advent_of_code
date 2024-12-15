@@ -48,28 +48,6 @@ def push_boxes(grid, r, c, dr, dc):
         return True
 
 def Part_One():
-    grid, path = read_file('small.txt')
-    directions = {'^': (-1,0), '>': (0,1), 'v': (1,0), '<': (0,-1)}
-    r, c = find_start(grid)
-    grid[r][c] = '.'  
-    
-    for d in path:
-        dr, dc = directions[d]
-        new_r, new_c = r + dr, c + dc
-        
-        if grid[new_r][new_c] == '.':
-            grid[r][c] = '.'      
-            grid[new_r][new_c] = '@'  
-            r, c = new_r, new_c
-        elif grid[new_r][new_c] == '#':
-            continue
-        else:  
-            if push_boxes(grid, new_r, new_c, dr, dc):
-                grid[r][c] = '.'          
-                grid[new_r][new_c] = '@'  
-                r, c = new_r, new_c
-
-def Part_One():
     grid, path = read_file('data.txt')
     directions = {'^': (-1,0), '>': (0,1), 'v': (1,0), '<': (0,-1)}
     r, c = find_start(grid)
@@ -92,9 +70,12 @@ def Part_One():
                 r, c = new_r, new_c
     return calculate_sum(grid)
 
-       
+def Part_Two():
+    grid, path = read_file('data.txt')
+    return
+
 
         
 if __name__ == '__main__':
-    print(Part_One())
-    # print(Part_Two())
+    # print(Part_One())
+    print(Part_Two())

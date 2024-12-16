@@ -10,6 +10,7 @@ def print_grid(grid):
     for line in grid:   
         print(''.join(line))
 
+
 def manhattan_distance(pos1, pos2):
     return abs(pos1[0] - pos2[0]) + abs(pos1[1] - pos2[1])
 
@@ -33,32 +34,49 @@ class State:
         self.direction = direction
         self.cost = cost
         self.estimated = cost + manhattan_distance((x,y), end)
+        self.parent = None
     def __lt__(self, other):
         return self.estimated < other.estimated
     
 
-def find_path(maze, start, end):
+def visualize_optimal_tiles(maze, optimal_tiles):
+    viz_maze = [row[:] for row in maze]
+    for y, x in optimal_tiles:
+        if viz_maze[y][x] not in ['S', 'E']:
+            viz_maze[y][x] = 'O'
+    print_grid(viz_maze)
 
+def find_path(maze, start, end, part_2):
     open_set = []
     heapq.heapify(open_set)
-    visited = set()
+    best_costs = {}
     start_state = State(start[1], start[0], 0, 0, end)
+    optimal_cost = float('inf')
+    optimal_tiles = set()  
     
     heapq.heappush(open_set, start_state)
     
     while open_set:
-        current = heapq.heappop(open_set) 
+        current = heapq.heappop(open_set)
+        state_key = (current.x, current.y, current.direction)
         
-        if (current.x, current.y) == (end[1], end[0]):
-            return current.cost
-            
-        if (current.x, current.y, current.direction) in visited:
+        if state_key in best_costs and current.cost > best_costs[state_key]:
             continue
             
-        visited.add((current.x, current.y, current.direction))
-
+        best_costs[state_key] = current.cost
+        
+        if (current.x, current.y) == (end[1], end[0]):
+            if current.cost <= optimal_cost:
+                optimal_cost = current.cost
+                temp = current
+                while temp:
+                    optimal_tiles.add((temp.y, temp.x))
+                    temp = temp.parent
+            if not part_2:
+                return optimal_cost
+            continue 
+            
         next_x, next_y = get_forward_position(current)
-        dist = manhattan_distance(start, end)
         if is_valid_move(maze, next_x, next_y):
             new_state = State(
                 next_x, 
@@ -67,33 +85,27 @@ def find_path(maze, start, end):
                 current.cost + 1,
                 end
             )
-            new_state.estimated = new_state.cost + manhattan_distance((next_x, next_y), end)
+            new_state.parent = current
             heapq.heappush(open_set, new_state)
         
-        new_direction = (current.direction + 3) % 4
-        new_state = State(
-            current.x,
-            current.y,
-            new_direction,
-            current.cost + 1000,
-            end
-        )
-        new_state.estimated = new_state.cost + manhattan_distance((current.x, current.y), end)
-        heapq.heappush(open_set, new_state)
-        
-        new_direction = (current.direction + 1) % 4
-        new_state = State(
-            current.x,
-            current.y,
-            new_direction,
-            current.cost + 1000,
-            end 
-        )
-        new_state.estimated = new_state.cost + manhattan_distance((current.x, current.y), end)
-        heapq.heappush(open_set, new_state)
+        for turn in [-1, 1]: 
+            new_direction = (current.direction + turn) % 4
+            new_state = State(
+                current.x,
+                current.y,
+                new_direction,
+                current.cost + 1000,
+                end
+            )
+            new_state.parent = current
+            heapq.heappush(open_set, new_state)
 
-        
-def Part_One():
+    if part_2:
+        visualize_optimal_tiles(maze, optimal_tiles)
+        return len(optimal_tiles)
+    return float('inf')    
+
+def Solution():
     grid  = read_file('data.txt')
     start = None
     end = None
@@ -105,10 +117,10 @@ def Part_One():
                 start = (i,j)
             elif grid[i][j] == 'E':
                 end = (i,j)
-    return find_path(grid, start, end)
-
-
-
+    first = find_path(grid, start, end, False)
+    print('Part One:', first)
+    first = find_path(grid, start, end, True)
+    print('Part Two:', first)
 
 if __name__ == "__main__":
-    print(Part_One())
+    print(Solution())

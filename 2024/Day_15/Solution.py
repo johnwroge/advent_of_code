@@ -91,6 +91,9 @@ def create_new_grid(grid):
 def calculate_sum_2(grid):
     return sum(goods_positioning_system(r, c) for r in range(len(grid)) for c in range(len(grid[0])) if grid[r][c] == '[')
    
+'''
+user modified bfs, store a set and assert horizontal positions. 
+'''
 
 def Part_Two():
     old_grid, path = read_file('smaller.txt')

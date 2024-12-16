@@ -70,12 +70,44 @@ def Part_One():
                 r, c = new_r, new_c
     return calculate_sum(grid)
 
+
+def create_new_grid(grid):
+    new_grid = []
+    for row in grid:
+        new_row = []
+        for char in row:
+            if char == '#':
+                new_row.extend(['#', '#'])
+            elif char == 'O':
+                new_row.extend(['[', ']'])
+            elif char == '.':
+                new_row.extend(['.', '.'])
+            elif char == '@':
+                new_row.extend(['@', '.'])
+        new_grid.append(new_row)
+    return new_grid
+
+
+def calculate_sum_2(grid):
+    return sum(goods_positioning_system(r, c) for r in range(len(grid)) for c in range(len(grid[0])) if grid[r][c] == '[')
+   
+
 def Part_Two():
-    grid, path = read_file('data.txt')
-    return
+    old_grid, path = read_file('smaller.txt')
+    new_grid = create_new_grid(old_grid)
+    directions = {'^': (-1,0), '>': (0,1), 'v': (1,0), '<': (0,-1)}
+    r, c = find_start(new_grid)
+    new_grid[r][c] = '.'  
+    
+    for d in path:
+        dr, dc = directions[d]
+        new_r = r + dr
+        new_c = c + dc
+        
+    return calculate_sum_2(new_grid)
 
 
         
 if __name__ == '__main__':
-    # print(Part_One())
+    print(Part_One())
     print(Part_Two())

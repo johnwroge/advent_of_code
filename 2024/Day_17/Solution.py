@@ -48,7 +48,7 @@ def parse_assembly_file(filename):
         program_list = []
     return registers, program_list
 
-def Part_One(initial_A):
+def Part_One():
     registers, program = parse_assembly_file('data.txt')
     i = 0
     j = 1
@@ -222,7 +222,7 @@ def try_value(initial_A, program, check_length=None):
 
 def Part_Two():
     _, program = parse_assembly_file('data.txt')
-    print("Original program:", program)
+    # print("Original program:", program)
     
     candidates = [0] 
     
@@ -239,7 +239,7 @@ def Part_Two():
                     new_candidates.append(a)
         
         candidates = new_candidates
-        print(f"Length {length}: Found {len(candidates)} candidates")
+        # print(f"Length {length}: Found {len(candidates)} candidates")
         
         if not candidates:
             return None
@@ -247,6 +247,6 @@ def Part_Two():
     return min(candidates) if candidates else None
 
 if __name__ == '__main__':
-     print(Part_One())
+    print(Part_One())
     print(Part_Two())
   

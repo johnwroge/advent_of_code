@@ -1,36 +1,5 @@
 import os, re, math
 
-"""
-3 registers A, B, C can hold any integer
-
-line of 3 bit numbers 0 - 7
-
-eight instructions (3 bit number)
-
-0 -> 1 -> 2 -> 3 -> halt
-
-literal operand - number itself 
-combo operand - 0 - 3 (literal of 0 - 3), 4 - A, 5 - B, 6 - C, 7- (DNE)
-
-opcodes
-0 - division of numerator (/) (A registrar)/ 2 ^ combo operand 
-then truncated and written to A registrar 
-
-1 - xor (^) of registrar B ^ operand and stores in B
-
-2 - combo operand % 8  , thens writes to B 
-
-3 - nothing if 0, else 
-
-6 - 0 - division of numerator (/) (A registrar)/ 2 ^ combo operand 
-then truncated and written to B registrar 
-
-7 - 0 - division of numerator (/) (A registrar)/ 2 ^ combo operand 
-then truncated and written to C registrar 
-
-"""
-import re
-
 def parse_assembly_file(filename):
     with open(os.getcwd() + f'/2024/Day_17/{filename}', 'r') as file:
         content = file.read()

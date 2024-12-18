@@ -30,7 +30,6 @@ def shortest_path(grid, start, end):
     while Q:
         (row, col), path = Q.popleft()
         if (row, col) == end:
-            # visualize(grid, path)
             return path
         for dx, dy in directions:
             new_r, new_c = row + dx, col + dy
@@ -46,9 +45,19 @@ def Part_One():
         c, r = bytes[i]
         grid[r][c] = '#'
     return shortest_path(grid, (0,0),(70,70))
+
+def Part_Two():
+    grid = create_grid(71, 71)
+    bytes = read_file('data.txt')
+    for i in range(len(bytes)):
+        c, r = bytes[i]
+        grid[r][c] = '#'
+        if not shortest_path(grid, (0,0),(70, 70)):
+            return r, c 
+
     
                 
 
-    
 
 print(Part_One())
+print(Part_Two())

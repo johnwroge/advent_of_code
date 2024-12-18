@@ -57,7 +57,6 @@ def Part_Two():
 
     
                 
-
-
-print(Part_One())
-print(Part_Two())
+if __name__ == '__main__':
+    print(Part_One())    
+    print(Part_Two())

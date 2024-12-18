@@ -40,12 +40,12 @@ def shortest_path(grid, start, end):
     return None
 
 def Part_One():
-    grid = create_grid(7, 7)
-    bytes = read_file('small.txt')
-    for i in range(12):
+    grid = create_grid(71, 71)
+    bytes = read_file('data.txt')
+    for i in range(1024):
         c, r = bytes[i]
         grid[r][c] = '#'
-    return shortest_path(grid, (0,0),(6,6))
+    return shortest_path(grid, (0,0),(70,70))
     
                 
 

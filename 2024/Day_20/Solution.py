@@ -23,13 +23,33 @@ def get_start_and_end(grid):
                 end = (i, j)
     return start, end
 
+def is_valid(grid, r, c):
+    return 0 <= r < len(grid) and 0 <= c < len(grid[0]) and grid[r][c] != '#'
+
 def bfs(grid, start, end):
+    directions = [(0,1),(0,-1),(1,0),(-1,0)]
+    Q = deque([(start[0], start[1], 0)])
+    visited = set()
+    while Q:
+        r, c, cost = Q.popleft()
+        if (r, c) == end:
+            return cost
+        for dr, dc in directions:
+            new_r, new_c = r + dr, c + dc
+            if (new_r, new_c) in visited:
+                continue
+            if is_valid(grid, new_r, new_c):
+                Q.append((new_r, new_c, cost + 1))
+                visited.add((new_r, new_c))
+        print(Q)
+    return float('inf')
+
 
 
 def Part_One():
     grid = read_file('small.txt')
     start, end = get_start_and_end(grid)
-    print(start, end)
+    time_to_beat = bfs(grid, start, end)
     
 
 if __name__ == '__main__':

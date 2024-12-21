@@ -70,11 +70,6 @@ def read_input(filename):
         return [line.strip() for line in file.readlines()]
 
 
-def part_one():
-    return sum(dfs(code, 2) * int(code[:3]) for code in CODES)
-def part_two():
-    return sum(dfs(code, 25) * int(code[:3]) for code in CODES)
-
 def solve(codes, levels=25):  
     total = 0
     for code in codes:

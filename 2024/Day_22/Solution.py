@@ -36,19 +36,19 @@ def get_scores(prices, changes):
 def Solution():
     contents = read_file('data.txt')
     total = 0
-    score = {}
+    scores = {}
     for c in contents:
         prices = process(c)
         total += prices[-1]
         prices = [x % 10 for x in prices]
-        c = changes(prices)
-        s = get_scores(prices, c)
-        for k, v in s.items():
-            if k not in score:
-                score[k] = v
+        change = changes(prices)
+        score = get_scores(prices, change)
+        for k, v in score.items():
+            if k not in scores:
+                scores[k] = v
             else:
-                score[k] += v
-    return total,  max(score.values())
+                scores[k] += v
+    return total,  max(scores.values())
         
 if __name__ == '__main__':
     part_1, part_2 = Solution()

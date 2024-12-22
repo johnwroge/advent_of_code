@@ -1,26 +1,5 @@
 
-'''
-Calculate the result of multiplying the secret number by 64. Then, mix this result into the
-secret number. Finally, prune the secret number.
-
-mix - calculate the bitwise XOR of the given value and the secret number.
-
-prune - calculate the value of the secret number modulo 16777216.
-
-Calculate the result of dividing the secret number by 32. Round the result down to the nearest
-integer. Then, mix this result into the secret number. Finally, prune the secret number.
-
-Calculate the result of multiplying the secret number by 2048. Then, mix this result into
-the secret number. Finally, prune the secret number.
-'''
 import os
-
-expected_output = """
-1: 8685429
-10: 4700978
-100: 15273692
-2024: 8667524
-"""
 
 def read_file(filename):
     with open(os.getcwd() + f'/2024/Day_22/{filename}', 'r') as file:
@@ -33,44 +12,45 @@ def prune(num):
 def mix(secret, mix):
     return secret ^ mix
 
-def multiply(num):
-    return num * 64
-
 def process(secret):
-    first = secret * 64
-    secret = mix(secret, first)
-    secret = prune(secret)
-    second = secret // 32
-    secret = mix(secret, second)
-    secret = prune(secret)
-    third = secret * 2048
-    secret = mix(secret, third)
-    secret = prune(secret)
-    return secret
+    answers = [secret]
+    for _ in range(2000):
+        secret = prune(mix(secret, secret * 64))
+        secret = prune(mix(secret, secret // 32))
+        secret = prune(mix(secret, secret * 2048))
+        answers.append(secret)
+    return answers
 
-def test(secret):
-    for i in range(10):
-        test = process(secret)
-        print('test', test)
-        secret = test
+def changes(prices):
+    return [prices[i + 1] - prices[i] for i in range(len(prices) - 1)]
 
-def Part_One():
+def get_scores(prices, changes):
+    answer = {}
+    for i in range(len(changes) - 3):
+        pattern = (changes[i], changes[i + 1], changes[i + 2], changes[i + 3])
+        if pattern not in answer:
+            answer[pattern] = prices[i + 4]
+    return answer
+
+
+def Solution():
     contents = read_file('data.txt')
     total = 0
+    score = {}
     for c in contents:
-        secret = c
-        for _ in range(2000):
-            result = process(secret)
-            secret = result
-        total += secret
-    return total
-        
-
+        prices = process(c)
+        total += prices[-1]
+        prices = [x % 10 for x in prices]
+        c = changes(prices)
+        s = get_scores(prices, c)
+        for k, v in s.items():
+            if k not in score:
+                score[k] = v
+            else:
+                score[k] += v
+    return total,  max(score.values())
         
 if __name__ == '__main__':
-    print(Part_One())
-
-  
-    
-
-
+    part_1, part_2 = Solution()
+    print('Part One:', part_1)
+    print('Part Two:', part_2)

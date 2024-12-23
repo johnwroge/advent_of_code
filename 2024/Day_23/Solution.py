@@ -14,8 +14,9 @@ td,wh,yn
 ub,vc,wq
 '''
 
-from collections import deque, defaultdict
+from collections import  defaultdict
 import os
+
 
 def read_file(file_name):
     with open(os.getcwd() + f'/2024/Day_23/{file_name}', 'r') as file:
@@ -49,39 +50,30 @@ def common_trio(graph):
             result.append(line)
     return result
 
-def find_largest_connected_components(graph):
-    def dfs(node, component):
-        visited.add(node)
-        component.append(node)
-        for neighbor in graph[node]:
-            if neighbor not in visited:
-                dfs(neighbor, component)
-    
-    visited = set()
-    components = []
-    
-    for node in graph:
-        if node not in visited:
-            component = []
-            dfs(node, component)
-            components.append(component)
-    
-    max_component_size = max(len(comp) for comp in components) if components else 0
-    largest_components = [
-        comp for comp in components 
-        if len(comp) == max_component_size
-    ]
 
-    return largest_components
+def find_largest_clique(graph):
+    def greedy_clique():
+        sorted_nodes = sorted(graph.keys(), key=lambda x: len(graph[x]), reverse=True)
+        best_clique = []
+        for start_node in sorted_nodes:
+            current_clique = [start_node]
+            for node in sorted_nodes:
+                if node not in current_clique:
+                    if all(node in graph[clique_node] for clique_node in current_clique):
+                        current_clique.append(node)
+            if len(current_clique) > len(best_clique):
+                best_clique = current_clique
+        return best_clique
+    largest_clique = greedy_clique()
+    return ','.join(sorted(largest_clique)) if largest_clique else ''
 
 def Solution():
-    file = read_file('small.txt')
+    file = read_file('data.txt')
     graph = create_graph(file)
     result = common_trio(graph)
-    print(graph)
+    result2 = find_largest_clique(graph)
     print('Part 1:',len(result))
-    largest = find_largest_connected_components(graph)
-    print('Part 2:',len(largest))
+    print('Part 2:', result2)
 
-    return 
-print(Solution())
+if __name__ == '__main__':  
+    print(Solution())

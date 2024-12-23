@@ -32,7 +32,7 @@ def create_graph(edges):
 def has_t_start(triangle):
     return any(s.startswith('t') for s in triangle)
 
-def common(graph):
+def common_trio(graph):
     triangles = set()
     for node in graph:
         neighbors = list(graph[node])
@@ -49,12 +49,39 @@ def common(graph):
             result.append(line)
     return result
 
+def find_largest_connected_components(graph):
+    def dfs(node, component):
+        visited.add(node)
+        component.append(node)
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                dfs(neighbor, component)
+    
+    visited = set()
+    components = []
+    
+    for node in graph:
+        if node not in visited:
+            component = []
+            dfs(node, component)
+            components.append(component)
+    
+    max_component_size = max(len(comp) for comp in components) if components else 0
+    largest_components = [
+        comp for comp in components 
+        if len(comp) == max_component_size
+    ]
+
+    return largest_components
 
 def Solution():
-    file = read_file('data.txt')
+    file = read_file('small.txt')
     graph = create_graph(file)
-    result = common(graph)
-    # for line in result:
-    #     print(line)
-    return len(result)
+    result = common_trio(graph)
+    print(graph)
+    print('Part 1:',len(result))
+    largest = find_largest_connected_components(graph)
+    print('Part 2:',len(largest))
+
+    return 
 print(Solution())

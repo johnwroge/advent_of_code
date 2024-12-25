@@ -1,6 +1,12 @@
 from dataclasses import dataclass
 from typing import Optional, List, Union
 
+def read_file(file_name):
+    with open(os.getcwd() + f'/2024/Day_24/{file_name}', 'r') as file:
+        contents = file.read().split('\n\n')
+        print(contents)
+# print(read_file('small.txt'))
+
 @dataclass
 class Wire:
     value: Optional[bool]
@@ -35,7 +41,5 @@ class Or(LogicGate):
 MEM = {}
 
 class Circuit:
-
-
 
 Or(And(inputs=[Wire(1), Wire(0)]), Wire(0))

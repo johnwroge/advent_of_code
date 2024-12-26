@@ -25,7 +25,6 @@ def locks(grid):
     return line
 
 def keys(grid):
-    print('\n\n')
     C = len(grid[0])
     R = len(grid) - 1
     result = []
@@ -59,14 +58,9 @@ def Solution():
     for lock in l:
         for key in k:
             if fits(lock, key):
-                print(lock, key)
+                # print(lock, key)
                 count += 1
     return count
-           
-
-
-         
-      
 
 if __name__ == '__main__':
     print(Solution())

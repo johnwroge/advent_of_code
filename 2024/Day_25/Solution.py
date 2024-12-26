@@ -35,10 +35,7 @@ def keys(grid):
             if grid[j][i] != '#':
                 result.append(count - 1)
                 break
-            count += 1  
-    for line in grid:
-        print(''.join(line))
-    print(result)      
+            count += 1       
     return result
 
 def create_grid(grid):

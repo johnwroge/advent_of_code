@@ -58,7 +58,6 @@ def Solution():
     for lock in l:
         for key in k:
             if fits(lock, key):
-                # print(lock, key)
                 count += 1
     return count
 

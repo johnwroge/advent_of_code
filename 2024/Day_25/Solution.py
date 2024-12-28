@@ -1,7 +1,4 @@
-"""
-"locks - top row filled (#), bottom row empty (.); 
- keys - top row empty, bottom row filled.
-"""
+
 import os
 def read_file(file_name):
     with open(os.getcwd() + f'/2024/day_25/{file_name}', 'r') as file:

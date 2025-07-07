@@ -7,7 +7,8 @@ from collections import deque
 with open(os.getcwd() + '/2022/Day10/part_one.txt', 'r') as f:
     items = f.read().strip().split('\n')
     
-    
+with open(os.getcwd() + '/2022/Day10/part_two.txt', 'r') as f:
+    items_2 = f.read().strip().split('\n')
 
 def solve_cathode_ray_tube(instructions):
     x_register = 1
@@ -33,6 +34,45 @@ def solve_cathode_ray_tube(instructions):
     
     return sum(signal_strengths)
 
+
+def solve_crt_display(instructions):
+    x_register = 1
+    cycle = 0
+    crt_display = []
     
+    def draw_pixel():
+        nonlocal cycle
+        cycle += 1
+        
+        pixel_position = (cycle - 1) % 40
+
+        if abs(pixel_position - x_register) <= 1:
+            crt_display.append('#')
+        else:
+            crt_display.append('.')
     
-print(f"Part 1, answer: {solve_cathode_ray_tube(items)}")
+    for instruction in instructions:
+        instruction = instruction.strip()
+        
+        if instruction == "noop":
+            draw_pixel()
+        elif instruction.startswith("addx"):
+            value = int(instruction.split()[1])
+            draw_pixel() 
+            draw_pixel()  
+            x_register += value  
+    
+    display_lines = []
+    for row in range(6):
+        start_idx = row * 40
+        end_idx = start_idx + 40
+        display_lines.append(''.join(crt_display[start_idx:end_idx]))
+    for line in display_lines:
+        print(line)
+    
+    return 
+
+
+    
+print(f"Part 1: {solve_cathode_ray_tube(items)}")
+print(f"Part 2: {solve_crt_display(items_2)}")

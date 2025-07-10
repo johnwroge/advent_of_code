@@ -1,5 +1,6 @@
 from collections import deque
 import os, re
+from math import lcm 
 
 
 def parse_monkeys(input_text):
@@ -38,7 +39,7 @@ def parse_monkeys(input_text):
 
     return monkeys
 
-def Solution(monkeys):
+def part_1(monkeys):
     
     for _ in range(20):
         for monkey in monkeys:
@@ -54,11 +55,42 @@ def Solution(monkeys):
         
     counts = sorted([m["inspect_count"] for m in monkeys], reverse=True)
     print("Level of monkey business:", counts[0] * counts[1])
-    
+
+
+
+def part_2(monkeys, rounds=10000):
+    mod_lcm = 1
+    for monkey in monkeys:
+        mod_lcm = lcm(mod_lcm, monkey["test"])
+
+    for _ in range(rounds):
+        for monkey in monkeys:
+            while monkey["items"]:
+                item = monkey["items"].popleft()
+                monkey["inspect_count"] += 1
+                item = monkey["op"](item)
+                item %= mod_lcm  
+                if item % monkey["test"] == 0:
+                    monkeys[monkey["if_true"]]["items"].append(item)
+                else:
+                    monkeys[monkey["if_false"]]["items"].append(item)
+
+    counts = sorted([m["inspect_count"] for m in monkeys], reverse=True)
+    print("Part 2:", counts[0] * counts[1])
+
 
 
 with open(os.getcwd() + "/2022/Day11/part_1.txt") as f:
     input_text = f.read()
 
 monkeys = parse_monkeys(input_text)
-Solution(monkeys)
+part_1(monkeys)
+
+
+with open(os.getcwd() + "/2022/Day11/part_2.txt") as f:
+    input_text = f.read()
+
+monkeys = parse_monkeys(input_text)
+part_2(monkeys)
+
+
